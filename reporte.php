@@ -28,10 +28,62 @@ $flota = array_map(function (array $v): array {
     //- Diferenciación de existencia de propiedades
     $v['descuento_isset']      = isset($v['descuento']); // bool(false) es null
     $v['descuento_key_existe'] = array_key_exists('descuento', $v); // bool(true) La clave existe aunque valga null
-    
+
     return $v;
 }, $flota);
 
 
 //- Ordenación del catálogo
 usort($flota, fn(array $a, array $b): int => $b['autonomia'] <=> $a['autonomia']);
+
+// Bloque 4: Reportes, seguridad multinivel y control de versiones
+//- Captura en memoria
+ob_start(); // Empieza la captura en memoria
+?>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Modelo</th>
+        <th>Mayúsculas</th>
+        <th>Categoría</th>
+        <th>Autonomía (km)</th>
+        <th>Chars</th>
+        <th>isset(descuento)</th>
+        <th>array_key_exists(descuento)</th>
+    </tr>
+    <?php foreach ($flota as $v): ?>
+        <tr>
+            <td><?= e($v['nombre']) ?></td> // Utilizamos función e para mostrarlo de forma segura dentro de HTML
+            <td><?= e($v['nombre_mayus']) ?></td>
+            <td><?= e($v['categoria']) ?></td>
+            <td><?= $v['autonomia'] ?></td>
+            <td><?= $v['longitud_chars'] ?></td>
+            <td><?= $v['descuento_isset'] ? 'true' : 'false' ?></td>
+            <td><?= $v['descuento_key_existe'] ? 'true' : 'false' ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+<?php
+$reporte = ob_get_clean(); // Guardamos el HTML en una variable y vaciamos el búfer
+?>
+//- Seguridad en HTML y código cliente
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Reporte de flota EcoDrive</h1>
+    <?= $reporte ?>
+
+    <script>
+        const datosFlota = <?= json_encode($flota, JSON_UNESCAPED_UNICODE) ?>;
+        console.log("Datos de la flota inyectados de forma segura a JS:", datosFlota);
+    </script>
+</body>
+
+</html>
