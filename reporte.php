@@ -52,7 +52,7 @@ ob_start(); // Empieza la captura en memoria
     </tr>
     <?php foreach ($flota as $v): ?>
         <tr>
-            <td><?= e($v['nombre']) ?></td> // Utilizamos función e para mostrarlo de forma segura dentro de HTML
+            <td><?= e($v['nombre']) ?></td> <!-- Utilizamos función e para mostrarlo de forma segura dentro de HTML -->
             <td><?= e($v['nombre_mayus']) ?></td>
             <td><?= e($v['categoria']) ?></td>
             <td><?= $v['autonomia'] ?></td>
@@ -65,7 +65,7 @@ ob_start(); // Empieza la captura en memoria
 <?php
 $reporte = ob_get_clean(); // Guardamos el HTML en una variable y vaciamos el búfer
 ?>
-//- Seguridad en HTML y código cliente
+<!-- Seguridad en HTML y código cliente -->
 
 <!DOCTYPE html>
 <html lang="en">
