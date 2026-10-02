@@ -3,6 +3,16 @@
 
 Módulo backend en PHP para la gestión interna de EcoDrive: validación de solicitudes de alquiler, procesamiento de reservas y generación de reportes de inventario de la flota.
 
+## Estructura del proyecto
+
+
+```
+EcoDrive
+├── procesador.php
+├── reporte.php
+└── README.md
+```
+
 ## Descripción
 
 El proyecto está dividido en dos scripts independientes, cada uno responsable de una parte del sistema:
